@@ -47,13 +47,14 @@ def listen_serial():
 
     while True:
         try:
-            # wait_for_serial()  # Ensure the serial port exists
             with serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=10) as ser:
                 print("Serial connection established.")
-
+                
                 retry_delay = 2  # Reset delay on successful connection
                 capturing = False
                 script_data = []
+                
+                # Read lines continuously until an exception occurs
                 while True:
                     line = ser.readline().decode("utf-8")
 
@@ -68,11 +69,12 @@ def listen_serial():
                         execute_script()
                     elif capturing:
                         script_data.append(line)
+                        
         except (serial.SerialException, FileNotFoundError) as e:
             print(f"Serial error: {e}")
             print(f"Retrying in {retry_delay} seconds...")
             time.sleep(retry_delay)
             retry_delay = min(retry_delay * 2, 60)  # Exponential backoff (max 60s)
-
+            
 if __name__ == "__main__":
     listen_serial()
