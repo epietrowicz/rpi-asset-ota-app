@@ -5,7 +5,7 @@ import subprocess
 import signal
 
 # Get serial settings from environment variables
-SERIAL_PORT = "/dev/tty.usbmodem2101"
+SERIAL_PORT = "/dev/ttyAMA0"
 BAUD_RATE = 115200
 SCRIPT_FILENAME = "app.py"
 
@@ -63,7 +63,7 @@ def listen_serial():
                         script_data = []
                     elif "--- End of file ---" in line:
                         capturing = False
-                        script_content = "\n".join(script_data)
+                        script_content = "".join(script_data)
                         print("Received script!")
                         save_script(script_content)
                         execute_script()

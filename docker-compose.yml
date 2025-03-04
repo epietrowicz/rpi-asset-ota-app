@@ -5,9 +5,6 @@ services:
     build: .
     volumes:
       - .:/app
-    environment:
-      - BAUD_RATE=115200
     devices:
-      - "/dev/tty.usbmodem2101:/dev/tty.usbmodem2101"
+      - "/dev/ttyAMA0:/dev/ttyAMA0"
     restart: unless-stopped
-    privileged: true  # Allows the container to access devices dynamically
